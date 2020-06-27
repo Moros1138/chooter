@@ -95,6 +95,7 @@ void render_texture(State *S, SDL_Texture *texture, float x, float y);
  * Utility functions
  */
 void set_thing_size(Thing *T);
+const char *get_res_path(void);
 
 // returns a random integer N where a <= N <= b
 static inline int randint(const uint32_t a, const uint32_t b) {

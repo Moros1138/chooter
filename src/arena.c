@@ -23,7 +23,7 @@ static void fire_bullet(Arena *A) {
   set_thing_size(bullet);
 
   bullet->r.y += player->r.h * 0.5 - bullet->r.h * 0.5;
-  player->reload = 8; // the player can fire once every 8 frames
+  player->reload = 8; // The player can fire once every 8 frames.
 }
 
 static void perform_player(State *S, Arena *A) {
@@ -58,12 +58,12 @@ static void perform_bullets(Arena *A) {
     b->r.y += b->delta.y;
 
     if (b->r.x > WIN_WIDTH) {
-      // is it the last bullet in the list?
+      // Is it the last bullet in the list?
       if (b == A->bullet_tail) {
         A->bullet_tail = prev;
       }
 
-      // remove the bullet from the list
+      // Remove the bullet from the list.
       prev->next = b->next;
       free(b);
       b = prev;
@@ -99,7 +99,8 @@ static void spawn_enemies(Arena *A) {
   enemy->tex = textures[ENEMY];
   set_thing_size(enemy);
   enemy->delta.x = -randint(2, 5);
-  enemy_spawn_rate = randint(30, 89); // a new enemy is spawned every 500-1500ms
+  // A new enemy is spawned every 500-1500ms.
+  enemy_spawn_rate = randint(30, 89);
 }
 
 static void logic(State *S, Arena *A) {
@@ -150,13 +151,14 @@ bool arena_init(State *S, Arena *A) {
     return false;
   }
 
-  // precache the textures, to avoid loading them each time
-  textures[PLAYER] = load_texture(S, "res/img/player.png");
+  // Precache the textures, to avoid loading them each time.
+  // textures[PLAYER] = load_texture(S, "res/img/player.png");
   textures[ENEMY] = load_texture(S, "res/img/enemy.png");
   textures[P_BULLET] = load_texture(S, "res/img/player_bullet.png");
 
-  enemy_spawn_rate = 0; // actually unnecessary (global variables are
-                        // initialized to 0), but I like it, it's consistent
+  // Actually unnecessary (global variables are initialized to 0 by default),
+  // but I like it, it's consistent.
+  enemy_spawn_rate = 0;
 
   return true;
 }
