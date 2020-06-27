@@ -38,3 +38,10 @@ const char *get_res_path(void) {
 
   return base_res;
 }
+
+bool are_colliding(Thing *a, Thing *b) {
+  SDL_Rect a_r = {a->r.x, a->r.y, a->r.w, a->r.h},
+           b_r = {b->r.x, b->r.y, b->r.w, b->r.h};
+
+  return SDL_HasIntersection(&a_r, &b_r);
+}

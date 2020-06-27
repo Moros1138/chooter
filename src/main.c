@@ -24,8 +24,13 @@ static void cap_fps(Sint32 *ticks, float *remainder) {
 }
 
 int main(int ac, char *av[]) {
-  (void)ac;
-  (void)av;
+  if (ac != 1) {
+    fprintf(stderr,
+            "I do not have any command-line arguments... just run me like "
+            "this: \"%s\"\n",
+            av[0]);
+    return EXIT_FAILURE;
+  }
 
   atexit(clean);
 

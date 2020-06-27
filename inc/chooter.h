@@ -25,6 +25,8 @@ typedef enum {
   GK_FIRE = 1 << 4,
 } GameKey;
 
+typedef enum { SD_PLAYER, SD_ENEMY } Side;
+
 typedef struct {
   delegate_fn logic;
   delegate_fn render;
@@ -37,6 +39,7 @@ typedef struct {
 typedef struct Thing {
   int reload;
   unsigned int hp;
+  Side side;
   SDL_FPoint delta;
   SDL_FRect r;
   SDL_Texture *tex;
@@ -96,6 +99,7 @@ void render_texture(State *S, SDL_Texture *texture, float x, float y);
  */
 void set_thing_size(Thing *T);
 const char *get_res_path(void);
+bool are_colliding(Thing *a, Thing *b);
 
 // returns a random integer N where a <= N <= b
 static inline int randint(const uint32_t a, const uint32_t b) {

@@ -21,9 +21,22 @@ static void fire_bullet(Arena *A) {
   bullet->hp = 1;
   bullet->tex = textures[P_BULLET];
   set_thing_size(bullet);
+  bullet->side = SD_PLAYER;
 
   bullet->r.y += player->r.h * 0.5 - bullet->r.h * 0.5;
   player->reload = 8; // The player can fire once every 8 frames.
+}
+
+static bool aircraft_got_shot(Arena *A, Thing *bullet) {
+  for (Thing *enemy = A->aircraft_head.next; enemy; enemy = enemy->next) {
+    if (enemy->side != bullet->side && are_colliding(bullet, enemy)) {
+      bullet->hp = 0;
+      enemy->hp = 0;
+
+      return true;
+    }
+  }
+  return false;
 }
 
 static void perform_player(State *S, Arena *A) {
@@ -57,7 +70,7 @@ static void perform_bullets(Arena *A) {
     b->r.x += b->delta.x;
     b->r.y += b->delta.y;
 
-    if (b->r.x > WIN_WIDTH) {
+    if (b->r.x > WIN_WIDTH || aircraft_got_shot(A, b)) {
       // Is it the last bullet in the list?
       if (b == A->bullet_tail) {
         A->bullet_tail = prev;
@@ -72,11 +85,12 @@ static void perform_bullets(Arena *A) {
 }
 
 static void perform_aircrafts(Arena *A) {
-  for (Thing *prev, *e = A->aircraft_head.next; e; prev = e, e = e->next) {
+  for (Thing *prev = &A->aircraft_head, *e = A->aircraft_head.next; e;
+       prev = e, e = e->next) {
     e->r.x += e->delta.x;
     e->r.y += e->delta.y;
 
-    if (e != player && e->r.x < -e->r.w) {
+    if (e != player && (e->r.x < -e->r.w || e->hp == 0)) {
       if (e == A->aircraft_tail) {
         A->aircraft_tail = prev;
       }
@@ -98,6 +112,8 @@ static void spawn_enemies(Arena *A) {
   enemy->r.y = randombytes_uniform(WIN_HEIGHT);
   enemy->tex = textures[ENEMY];
   set_thing_size(enemy);
+  enemy->side = SD_ENEMY;
+  enemy->hp = 1;
   enemy->delta.x = -randint(2, 5);
   // A new enemy is spawned every 500-1500ms.
   enemy_spawn_rate = randint(30, 89);
@@ -135,6 +151,7 @@ static bool init_player(State *S, Arena *A) {
   player->r.y = 100;
   player->tex = load_texture(S, "res/img/player.png");
   set_thing_size(player);
+  player->side = SD_PLAYER;
 
   return true;
 }
