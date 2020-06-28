@@ -17,15 +17,15 @@ typedef struct Arena Arena;
 
 typedef void (*delegate_fn)(State *, Arena *);
 
-typedef enum {
+enum GameKey {
   GK_UP = 1 << 0,
   GK_DOWN = 1 << 1,
   GK_RIGHT = 1 << 2,
   GK_LEFT = 1 << 3,
   GK_FIRE = 1 << 4,
-} GameKey;
+};
 
-typedef enum { SD_PLAYER, SD_ENEMY } Side;
+enum Side { SD_PLAYER, SD_ENEMY };
 
 typedef struct {
   delegate_fn logic;
@@ -39,7 +39,7 @@ typedef struct {
 typedef struct Thing {
   int reload;
   unsigned int hp;
-  Side side;
+  enum Side side;
   SDL_FPoint delta;
   SDL_FRect r;
   SDL_Texture *tex;
@@ -64,7 +64,7 @@ struct Arena {
  */
 struct State {
   bool running;
-  GameKey key;
+  enum GameKey key;
   Delegate dg;
   SDL_Renderer *ren;
   SDL_Window *win;
