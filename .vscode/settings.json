@@ -1,6 +1,3 @@
 {
-  "C_Cpp.default.includePath": [
-    "./inc",
-    "C:\\mingw_dev\\include"
-  ]
+    "C_Cpp.default.includePath": ["./inc", "/usr/local/include"]
 }

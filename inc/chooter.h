@@ -21,18 +21,18 @@ typedef struct Arena Arena;
 typedef void (*delegate_fn)(State *, Arena *);
 
 enum GameKey {
-  GK_UP = 1 << 0,
-  GK_DOWN = 1 << 1,
-  GK_RIGHT = 1 << 2,
-  GK_LEFT = 1 << 3,
-  GK_FIRE = 1 << 4,
+    GK_UP = 1 << 0,
+    GK_DOWN = 1 << 1,
+    GK_RIGHT = 1 << 2,
+    GK_LEFT = 1 << 3,
+    GK_FIRE = 1 << 4,
 };
 
 enum Side { SD_PLAYER, SD_ENEMY };
 
 typedef struct {
-  delegate_fn logic;
-  delegate_fn render;
+    delegate_fn logic;
+    delegate_fn render;
 } Delegate;
 
 /**
@@ -40,13 +40,13 @@ typedef struct {
  * Entities are objects like the player, the enemies, the bullets, etc.
  */
 typedef struct Thing {
-  int reload;
-  unsigned int hp;
-  enum Side side;
-  SDL_FPoint delta;
-  SDL_FRect r;
-  SDL_Texture *tex;
-  struct Thing *next;
+    int reload;
+    unsigned int hp;
+    enum Side side;
+    SDL_FPoint delta;
+    SDL_FRect r;
+    SDL_Texture *tex;
+    struct Thing *next;
 } Thing;
 
 /**
@@ -54,10 +54,10 @@ typedef struct Thing {
  * in the arena current arena they are playing in.
  */
 struct Arena {
-  Thing aircraft_head;
-  Thing bullet_head;
-  Thing *aircraft_tail;
-  Thing *bullet_tail;
+    Thing aircraft_head;
+    Thing bullet_head;
+    Thing *aircraft_tail;
+    Thing *bullet_tail;
 };
 
 /**
@@ -66,11 +66,11 @@ struct Arena {
  * the functions.
  */
 struct State {
-  bool running;
-  enum GameKey key;
-  Delegate dg;
-  SDL_Renderer *ren;
-  SDL_Window *win;
+    bool running;
+    enum GameKey key;
+    Delegate dg;
+    SDL_Renderer *ren;
+    SDL_Window *win;
 };
 
 /**
@@ -103,11 +103,11 @@ void render_texture(State *S, SDL_Texture *texture, float x, float y);
 void set_thing_size(Thing *T);
 const char *get_res_path(void);
 bool are_colliding(Thing *a, Thing *b);
-void find_slope(const SDL_FPoint src, const SDL_FPoint dst, SDL_FPoint *out);
+void find_slope(float x1, float y1, float x2, float y2, float *dx, float *dy);
 
 // returns a random integer N where a <= N <= b
 static inline int randint(const uint32_t a, const uint32_t b) {
-  return a + randombytes_uniform(b - a + 1);
+    return a + randombytes_uniform(b - a + 1);
 }
 
 #endif // CHOOTER_H_

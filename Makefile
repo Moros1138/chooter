@@ -1,9 +1,6 @@
 # OBJS specifies which files to compile as part of the project
 OBJS = src/*.c
 
-# CC specifies which compiler we're using
-CC = gcc
-
 # INCLUDE_PATHS specifies the additional include paths we'll need
 INCLUDE_PATHS = $(shell sdl2-config --cflags) -Iinc
 
