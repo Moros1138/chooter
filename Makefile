@@ -5,17 +5,17 @@ OBJS = src/*.c
 CC = gcc
 
 # INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -Iinc -IC:\mingw_dev\include
+INCLUDE_PATHS = $(shell sdl2-config --cflags) -Iinc
 
 # LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = -LC:\mingw_dev\lib
+LIBRARY_PATHS = $(shell sdl2-config --libs)
 
 # COMPILER_FLAGS specifies the additional compilation options we're using
 # -Wl,-subsystem,windows gets rid of the console window
-COMPILER_FLAGS = -Wall -Wextra -pedantic -std=c99 -Wl,-subsystem,windows
+COMPILER_FLAGS = -Wall -Wextra -pedantic -std=c99
 
 # LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lsodium
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lsodium
 
 # OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = chooter

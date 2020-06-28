@@ -9,8 +9,11 @@
 #define WIN_WIDTH 1280
 #define WIN_HEIGHT 720
 
+#define FPS 60
+
 #define PLAYER_SPD 4
 #define PLAYER_BULLET_SPD 16
+#define ENEMY_BULLET_SPD 8
 
 typedef struct State State;
 typedef struct Arena Arena;
@@ -100,6 +103,7 @@ void render_texture(State *S, SDL_Texture *texture, float x, float y);
 void set_thing_size(Thing *T);
 const char *get_res_path(void);
 bool are_colliding(Thing *a, Thing *b);
+void find_slope(const SDL_FPoint src, const SDL_FPoint dst, SDL_FPoint *out);
 
 // returns a random integer N where a <= N <= b
 static inline int randint(const uint32_t a, const uint32_t b) {

@@ -1,6 +1,13 @@
+#include <math.h>
 #include <string.h>
 
 #include "chooter.h"
+
+#ifdef max
+#undef max
+#endif
+
+#define max(a, b) (((a) > (b)) ? (a) : (b))
 
 void set_thing_size(Thing *T) {
   int w = 0, h = 0;
@@ -44,4 +51,16 @@ bool are_colliding(Thing *a, Thing *b) {
            b_r = {b->r.x, b->r.y, b->r.w, b->r.h};
 
   return SDL_HasIntersection(&a_r, &b_r);
+}
+
+void find_slope(const SDL_FPoint src, const SDL_FPoint dst, SDL_FPoint *out) {
+  float steps = max(fabsf(src.x - dst.x), fabsf(src.y - dst.y));
+
+  if (steps == 0) {
+    out->x = 0;
+    out->y = 0;
+  } else {
+    out->x = src.x - dst.x / steps;
+    out->y = src.y - dst.y / steps;
+  }
 }
